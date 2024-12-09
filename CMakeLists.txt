@@ -15,4 +15,4 @@ add_executable(${PROJECT_NAME}
         main.cpp
         handler.cpp
         parser.cpp
-        MyString.cpp)
+        DoublyLinkedList.cpp)

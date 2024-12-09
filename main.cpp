@@ -1,7 +1,6 @@
 #include <cstdlib>
 #include <iostream>
 
-#include "MyString.h"
 #include "handler.h"
 #include "parser.h"
 

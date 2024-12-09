@@ -2,7 +2,15 @@
 #include <iostream>
 
 #include "parser.h"
-#include "MyString.h"
+
+size_t get_size(char* ptr) {
+    size_t size = 0;
+    while (*ptr != '\0') {
+        ++ptr;
+        ++size;
+    }
+    return size;
+}
 
 ParseResult parse(int argc, char** argv) {
     ParseResult result;
@@ -17,10 +25,12 @@ ParseResult parse(int argc, char** argv) {
         if (strcmp("--input", argv[cur_str]) == 0) {
             result.args.path = argv[cur_str + 1];
         } else if (strcmp("--top", argv[cur_str]) == 0) {
-            MyString param(argv[cur_str + 1]);
+            char* top_param = argv[cur_str + 1];
 
-            char* begin = param.data();
-            char* end = param.data() + param.size();
+            size_t param_size = get_size(top_param);
+
+            char* begin = top_param;
+            char* end = top_param + param_size;
 
             std::from_chars_result parse_result = std::from_chars(begin, end, result.args.top_count);
 
@@ -39,6 +49,6 @@ ParseResult parse(int argc, char** argv) {
     }
 
     result.is_err = false;
-    
+
     return result;
 }
