@@ -3,15 +3,25 @@
 #include "DoublyLinkedList.h"
 
 
+DoublyLinkedList::Node::Node(const char* word_ptr) {
+    size_t i = 0;
+    while (*word_ptr != '\0') {
+        word[i] = *word_ptr;
+        ++word_ptr;
+        ++i;
+    }
+    word[i] = '\0';
+}
+
 DoublyLinkedList::DoublyLinkedList() {
-    begin->next = end;
-    end->prev = begin;
+    begin_->next = end_;
+    end_->prev = begin_;
 }
 
 void DoublyLinkedList::push_back(const char* word_ptr) {
-    BaseNode* node = begin->next;
+    BaseNode* node = begin_->next;
 
-    while (node != end) {
+    while (node != end_) {
         Node* real_node = (Node*)node;
 
         if (strcmp(real_node->word, word_ptr) == 0) {
@@ -23,21 +33,33 @@ void DoublyLinkedList::push_back(const char* word_ptr) {
     }
 
     Node* new_node = new Node(word_ptr);
-    BaseNode* prev_end = end->prev;
+    BaseNode* prev_end = end_->prev;
 
     new_node->prev = prev_end;
-    new_node->next = end;
+    new_node->next = end_;
 
-    end->prev = new_node;
+    end_->prev = new_node;
     prev_end->next = new_node;
 
-    ++_sz;
+    ++size_;
+}
+
+void DoublyLinkedList::push_back(Node* node) {
+    BaseNode* prev_end = end_->prev;
+
+    node->prev = prev_end;
+    node->next = end_;
+
+    end_->prev = node;
+    prev_end->next = node;
+
+    ++size_;
 }
 
 void DoublyLinkedList::print(size_t node_count) const {
-    BaseNode* node = begin->next;
+    BaseNode* node = begin_->next;
 
-    while (node != end && node_count) {
+    while (node != end_ && node_count) {
         Node* real_node = (Node*)node;
 
         char* word_ptr = real_node->word;
@@ -54,27 +76,27 @@ void DoublyLinkedList::print(size_t node_count) const {
 }
 
 void DoublyLinkedList::sort() {
-    for (size_t i = 0; i < _sz; ++i) {
+    for (size_t i = 0; i < size_; ++i) {
         bool is_swapped = false;
 
-        BaseNode* cur_node = begin->next;
-        while (cur_node != end) {
-            BaseNode* next_node = cur_node->next;
-            if (next_node == end) {
+        BaseNode* current_node = begin_->next;
+        while (current_node != end_) {
+            BaseNode* next_node = current_node->next;
+            if (next_node == end_) {
                 break;
             }
 
-            Node* real_cur_node = (Node*)cur_node;
+            Node* real_current_node = (Node*)current_node;
             Node* real_next_node = (Node*)next_node;
 
-            if (real_cur_node->count < real_next_node->count) {
-                std::swap(real_cur_node->word, real_next_node->word);
-                std::swap(real_cur_node->count, real_next_node->count);
+            if (real_current_node->count < real_next_node->count) {
+                std::swap(real_current_node->word, real_next_node->word);
+                std::swap(real_current_node->count, real_next_node->count);
 
                 is_swapped = true;
             }
 
-            cur_node = next_node;
+            current_node = next_node;
         }
 
         if (!is_swapped) {
@@ -84,7 +106,7 @@ void DoublyLinkedList::sort() {
 }
 
 DoublyLinkedList::~DoublyLinkedList() {
-    BaseNode* node = begin;
+    BaseNode* node = begin_;
     while (node) {
         BaseNode* next_node = node->next;
         delete node;

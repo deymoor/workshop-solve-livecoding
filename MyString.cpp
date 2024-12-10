@@ -7,22 +7,22 @@ MyString::MyString(const char* ptr) {
     }
 }
 
-MyString::MyString(const MyString& other): _cap(other._cap), _sz(other._sz) {
-    _ptr = new char[_cap];
-    for (size_t i = 0; i < _sz; ++i) {
-        _ptr[i] = other._ptr[i];
+MyString::MyString(const MyString& other): capacity_(other.capacity_), size_(other.size_) {
+    data_ = new char[capacity_];
+    for (size_t i = 0; i < size_; ++i) {
+        data_[i] = other.data_[i];
     }
 }
 
 MyString& MyString::operator=(const MyString& other) {
     clear();
 
-    _cap = other._cap;
-    _sz = other._sz;
+    capacity_ = other.capacity_;
+    size_ = other.size_;
 
-    _ptr = new char[_cap];
-    for (size_t i = 0; i < _sz; ++i) {
-        _ptr[i] = other._ptr[i];
+    data_ = new char[capacity_];
+    for (size_t i = 0; i < size_; ++i) {
+        data_[i] = other.data_[i];
     }
 
     return *this;
@@ -47,33 +47,33 @@ std::istream& operator>>(std::istream& input, MyString& str) {
 }
 
 std::ostream& operator<<(std::ostream& output, MyString& str) {
-    output.write(str._ptr, str._sz);
+    output.write(str.data_, str.size_);
 
     return output;
 }
 
 void MyString::push_back(char ch) {
-    if (_sz == _cap) {
-        char* new_ptr = new char[_cap * 2 + 1];
-        for (size_t i = 0; i < _sz; ++i) {
-            new_ptr[i] = _ptr[i];
+    if (size_ == capacity_) {
+        char* new_ptr = new char[capacity_ * 2 + 1];
+        for (size_t i = 0; i < size_; ++i) {
+            new_ptr[i] = data_[i];
         }
-        _cap = _cap * 2 + 1;
+        capacity_ = capacity_ * 2 + 1;
 
-        delete[] _ptr;
-        _ptr = new_ptr;
+        delete[] data_;
+        data_ = new_ptr;
     }
-    _ptr[_sz] = ch;
-    ++_sz;
+    data_[size_] = ch;
+    ++size_;
 }
 
 bool MyString::operator==(const MyString& other) const {
-    if (_cap != other._cap || _sz != other._sz) {
+    if (capacity_ != other.capacity_ || size_ != other.size_) {
         return false;
     }
 
-    for (size_t i = 0; i < _sz; ++i) {
-        if (_ptr[i] != other._ptr[i]) {
+    for (size_t i = 0; i < size_; ++i) {
+        if (data_[i] != other.data_[i]) {
             return false;
         }
     }
@@ -82,21 +82,21 @@ bool MyString::operator==(const MyString& other) const {
 }
 
 void MyString::clear() {
-    delete[] _ptr;
+    delete[] data_;
 
-    _ptr = nullptr;
-    _cap = 0;
-    _sz = 0;
+    data_ = nullptr;
+    capacity_ = 0;
+    size_ = 0;
 }
 
 char* MyString::data() {
-    return _ptr;
+    return data_;
 }
 
 size_t MyString::size() {
-    return _sz;
+    return size_;
 }
 
 MyString::~MyString() {
-    delete[] _ptr;
+    delete[] data_;
 }

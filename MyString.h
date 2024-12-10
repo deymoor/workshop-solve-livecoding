@@ -7,6 +7,7 @@ public:
     MyString() = default;
     MyString(const char* ptr);
     MyString(const MyString& other);
+    
     MyString& operator=(const MyString& other);
 
     friend std::istream& operator>>(std::istream& input, MyString& str);
@@ -23,7 +24,7 @@ public:
 private:
     bool is_skip(char ch);
 
-    char* _ptr = nullptr;
-    size_t _cap = 0;
-    size_t _sz = 0; 
+    char* data_ = nullptr;
+    size_t capacity_ = 0;
+    size_t size_ = 0; 
 };
