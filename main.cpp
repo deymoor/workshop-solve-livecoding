@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "DoublyLinkedList.h"
+#include "MyString.h"
 #include "parser.h"
 
 

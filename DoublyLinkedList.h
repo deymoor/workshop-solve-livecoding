@@ -20,7 +20,6 @@ public:
     DoublyLinkedList();
 
     void push_back(const char* word_ptr);
-    void push_back(Node* node);
     void print(size_t node_count) const;
     void sort();
 

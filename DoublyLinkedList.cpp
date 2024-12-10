@@ -4,6 +4,10 @@
 
 
 DoublyLinkedList::Node::Node(const char* word_ptr) {
+    if (!word_ptr) {
+        return;
+    }
+
     size_t i = 0;
     while (*word_ptr != '\0') {
         word[i] = *word_ptr;
@@ -19,6 +23,10 @@ DoublyLinkedList::DoublyLinkedList() {
 }
 
 void DoublyLinkedList::push_back(const char* word_ptr) {
+    if (!word_ptr) {
+        return;
+    }
+
     BaseNode* node = begin_->next;
 
     while (node != end_) {
@@ -40,18 +48,6 @@ void DoublyLinkedList::push_back(const char* word_ptr) {
 
     end_->prev = new_node;
     prev_end->next = new_node;
-
-    ++size_;
-}
-
-void DoublyLinkedList::push_back(Node* node) {
-    BaseNode* prev_end = end_->prev;
-
-    node->prev = prev_end;
-    node->next = end_;
-
-    end_->prev = node;
-    prev_end->next = node;
 
     ++size_;
 }

@@ -1,6 +1,10 @@
 #include "MyString.h"
 
 MyString::MyString(const char* ptr) {
+    if (!ptr) {
+        return;
+    }
+
     while (*ptr != '\0') {
         push_back(*ptr);
         ++ptr;
