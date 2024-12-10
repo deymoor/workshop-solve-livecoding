@@ -11,7 +11,7 @@ bool is_skip(char ch) {
     return ch == ' ' || ch == '\n';
 }
 
-std::istream& operator>>(std::istream& input, char (&ptr)[1025]) {
+std::istream& operator>>(std::istream& input, char (&ptr)[DoublyLinkedList::kMaxWordLen + 1]) {
     while (input && is_skip(input.peek())) {
         input.get();
     }
@@ -36,7 +36,7 @@ bool handle(const Arguments& args) {
     }
 
     DoublyLinkedList list;
-    char word[1025];
+    char word[DoublyLinkedList::kMaxWordLen + 1];
     while (file >> word) {
         list.push_back(word);
     }
