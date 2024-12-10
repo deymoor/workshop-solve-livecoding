@@ -13,6 +13,6 @@ add_link_options(-fsanitize=address)
 
 add_executable(${PROJECT_NAME}
         main.cpp
-        handler.cpp
+        MyString.cpp
         parser.cpp
         DoublyLinkedList.cpp)

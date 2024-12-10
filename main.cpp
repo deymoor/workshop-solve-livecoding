@@ -1,8 +1,32 @@
 #include <cstdlib>
+#include <fstream>
 #include <iostream>
 
-#include "handler.h"
+#include "DoublyLinkedList.h"
 #include "parser.h"
+
+
+bool is_skip(char ch) {
+    return ch == ' ' || ch == '\n';
+}
+
+
+std::istream& operator>>(std::istream& input, char (&ptr)[DoublyLinkedList::kMaxWordLen + 1]) {
+    while (input && is_skip(input.peek())) {
+        input.get();
+    }
+
+    size_t i = 0;
+    while (input && !is_skip(input.peek())) {
+        ptr[i] = input.get();
+        ++i;
+    }
+
+    ptr[i] = '\0';
+
+    return input;
+}
+
 
 int main(int argc, char** argv) {
     ParseResult parse_result = parse(argc, argv);
@@ -10,10 +34,21 @@ int main(int argc, char** argv) {
         return EXIT_FAILURE;
     }
     
-    bool is_err = handle(parse_result.args);
-    if (is_err) {
+    std::ifstream file(parse_result.args.path);
+
+    if (!file) {
+        std::cerr << "File doesn't exist" << std::endl;
         return EXIT_FAILURE;
     }
+
+    DoublyLinkedList list;
+    char word[DoublyLinkedList::kMaxWordLen + 1];
+    while (file >> word) {
+        list.push_back(word);
+    }
+
+    list.sort();
+    list.print(parse_result.args.top_count);
 
     return EXIT_SUCCESS;
 }

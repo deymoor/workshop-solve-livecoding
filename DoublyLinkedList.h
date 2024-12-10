@@ -4,7 +4,7 @@
 class DoublyLinkedList {
 public:
     static const size_t kMaxWordLen = 1024;
-    
+
     DoublyLinkedList();
 
     void push_back(const char* word_ptr);
@@ -19,7 +19,7 @@ private:
     };
 
     struct Node : BaseNode {
-        char word[1025];
+        char word[kMaxWordLen + 1];
         size_t count = 1;
 
         Node(const char* word_ptr) {
